@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Post</title>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .app-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .email-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #495057;
+            transition: all 0.3s;
+        }
+        .email-btn:hover {
+            background-color: #dee2e6;
+        }
+        .fa-envelope {
+            color: #6c757d;
+        }
+
+        /* New form styling */
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            transition: border 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+        .btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #3a7bc8;
+        }
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <!-- Left side - App title -->
+    <div class="app-title">To-Do List</div>
+
+    <!-- Right side - User info -->
+    <div class="user-info">
+        <button class="email-btn">
+            <i class="fas fa-envelope"></i>
+            <span th:text="${email}"></span>
+        </button>
+        <span th:text="${name}" style="margin-left: 10px; font-weight: 500;"></span>
+    </div>
+</header>
+
+<div class="container">
+    <div class="form-container">
+        <form action="/createPost" method="POST">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" class="form-control" placeholder="Enter task title" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="taskTime">Time</label>
+                    <input type="time" id="taskTime" name="taskTime" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastDate">Due Date</label>
+                    <input type="date" id="lastDate" name="lastDate" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea id="content" name="content" class="form-control" rows="5" placeholder="Enter task details..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-block">Create Post</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

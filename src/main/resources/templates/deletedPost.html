@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --light-gray: #e9ecef;
+            --dark-gray: #6c757d;
+            --white: #ffffff;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .email-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background-color: var(--light-gray);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .email-btn:hover {
+            background-color: #dfe3e8;
+        }
+
+        .fa-envelope {
+            color: var(--dark-gray);
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .container {
+            padding: 2rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .create-post-btn {
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .create-post-btn:hover {
+            background-color: #3a5bef;
+            transform: translateY(-2px);
+        }
+
+        .tasks-header {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .task-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .task-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .task-title {
+            font-size: 1.3rem;
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-color);
+        }
+
+        .task-time {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark-gray);
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .task-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .task-content {
+            color: var(--text-color);
+            line-height: 1.5;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 3%;
+            }
+
+            .container {
+                padding: 1.5rem 3%;
+            }
+
+            .task-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="app-title">To-Do List</div>
+    <div class="user-info">
+        <button class="email-btn">
+            <i class="fas fa-envelope"></i>
+            <span th:text="${email}"></span>
+        </button>
+        <span class="user-name" th:text="${name}"></span>
+    </div>
+</header>
+
+<div class="container">
+
+    <h1 class="tasks-header">Deleted Tasks</h1>
+
+    <div class="task-list">
+        <div class="task-card" th:each="t : ${tasks}">
+            <h2 class="task-title" th:text="${t.title}"></h2>
+            <div class="task-time">
+                <i class="far fa-clock"></i>
+                <span th:text="${t.taskTime}"></span>
+            </div>
+            <div class="task-date">
+                <i class="far fa-calendar-alt"></i>
+                <span th:text="${t.lastDate}"></span>
+            </div>
+            <p class="task-content" th:text="${t.content}"></p>
+            <a th:href="@{/retrieve(id=${t.id})}" class="create-post-btn">Get Back</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

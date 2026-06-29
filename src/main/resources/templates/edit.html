@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Post</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --border-color: #ddd;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --header-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: var(--header-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .email-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .email-btn:hover {
+            background-color: #dfe3e8;
+        }
+
+        .fa-envelope {
+            color: #6c757d;
+        }
+
+        /* Main Content Styles */
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin: 30px 0 15px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: border 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #3a5bef;
+        }
+
+        .view-data {
+            padding: 12px 15px;
+            background-color: var(--secondary-color);
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            min-height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .header {
+                padding: 15px 3%;
+            }
+
+            .container {
+                padding: 0 3%;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <!-- Left side - App title -->
+    <div class="app-title">To-Do List</div>
+
+    <!-- Right side - User info -->
+    <div class="user-info">
+        <button class="email-btn">
+            <i class="fas fa-envelope"></i>
+            <span th:text="${email}"></span>
+        </button>
+        <span th:text="${name}" style="margin-left: 10px; font-weight: 500;"></span>
+    </div>
+</header>
+
+<div class="container">
+    <div class="form-container">
+        <h2 class="section-title">Current Post Details</h2>
+        <div class="form-group">
+            <label>Title</label>
+            <div class="view-data" th:text="${Edit.title}">Sample Title</div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Time</label>
+                <div class="view-data" th:text="${Edit.taskTime}">14:30</div>
+            </div>
+            <div class="form-group">
+                <label>Due Date</label>
+                <div class="view-data" th:text="${Edit.lastDate}">2025-08-15</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Content</label>
+            <div class="view-data" th:text="${Edit.content}">Existing post content goes here...</div>
+        </div>
+
+        <h2 class="section-title">Update Post</h2>
+        <form th:action="@{/update}" method="POST">
+
+            <input type="hidden" name="id" th:value="${Edit.id}">
+
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" class="form-control"
+                       placeholder="Enter task title" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="taskTime">Time</label>
+                    <input type="time" id="taskTime" name="taskTime" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastDate">Due Date</label>
+                    <input type="date" id="lastDate" name="lastDate" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea id="content" name="content" class="form-control" rows="5"
+                          placeholder="Enter task details..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn">Update Post</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
